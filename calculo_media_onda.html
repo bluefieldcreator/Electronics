@@ -13,7 +13,8 @@
 
 </p>
 
-<script>function calculateMediaOnda() {
+<script>
+function calculateMediaOnda() {
   const voltajeFase1 = document.querySelector("#voltaje").value.split("/")[0]
   const voltajeFase2 = document.querySelector("#voltaje").value.split("/")[1]
   const res = parseInt(document.querySelector("#resistencia").value);
@@ -30,6 +31,10 @@
   
   const intensidad = vMedDiodo / res;
   
+	const intensidadDiodo = intensidad;
+  
+  const voltajeDiodo = vEF2 - vMedDiodo;
+  
   const resultadosHTML = document.querySelector("#resultados");
   
   resultadosHTML.innerHTML = `
@@ -38,7 +43,10 @@
   <p>Voltaje Fase 2: ${vEF2}</p>
   <p>Voltaje Maximo Fase 2: ${vMaxFase2}</p>
   <p>Voltaje Medio Diodo: ${vMedDiodo}</p>
-  <p>Intensidad Media del diodo: ${intensidad}</p>`
+  <p>Intensidad Media del diodo: ${intensidad}</p>
+  <p>Intensidad Diodo: ${intensidadDiodo}</p>
+  <p>Voltaje del Diodo: ${voltajeDiodo}</p>`
   
 }
+
 </script>
