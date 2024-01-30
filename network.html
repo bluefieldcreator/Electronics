@@ -1,0 +1,74 @@
+<input placeholder="IP Address" id="ips">
+<input placeholder="Hosts" id="hosts">
+<input placeholder="Nets" id="nets">
+<button onclick="calculateSubnetInfo()">
+  Calculate
+</button>
+<div id="results">
+  Results will show up here.
+</div>
+<script>
+  function calculateSubnetInfo() {
+  const usedHosts = parseInt(document.querySelector("#hosts").value);
+  const usedNets = parseInt(document.querySelector("#nets").value);
+  const ip = document.querySelector("#ips").value;
+
+  const results = document.querySelector("#results");
+  // Validate input values
+  if (isNaN(usedHosts) || isNaN(usedNets)) {
+    return "Invalid input. Please enter valid numbers for used hosts and used networks.";
+  }
+
+  // Extract the first octet to determine the IP class
+  const firstOctet = parseInt(ip.split('.')[0], 10);
+
+  // Determine the IP class
+  let ipClass;
+  if (firstOctet >= 1 && firstOctet <= 126) {
+    ipClass = 'A';
+  } else if (firstOctet >= 128 && firstOctet <= 191) {
+    ipClass = 'B';
+  } else if (firstOctet >= 192 && firstOctet <= 223) {
+    ipClass = 'C';
+  } else {
+    return "Invalid IP address. This function only supports Class A, B, and C addresses.";
+  }
+
+  // Calculate the necessary subnet bits
+  const totalSubnets = Math.pow(2, Math.ceil(Math.log2(usedNets)));
+  const subnetBits = Math.ceil(Math.log2(totalSubnets));
+
+  // Calculate the necessary host bits
+  const totalHosts = Math.pow(2, Math.ceil(Math.log2(usedHosts + 2))); // '+ 2' accounts for network and broadcast addresses
+  const hostBits = Math.ceil(Math.log2(totalHosts));
+
+  // Determine the default subnet mask based on the IP class
+  let defaultSubnetMask;
+  if (ipClass === 'A') {
+    defaultSubnetMask = '255.0.0.0';
+  } else if (ipClass === 'B') {
+    defaultSubnetMask = '255.255.0.0';
+  } else if (ipClass === 'C') {
+    defaultSubnetMask = '255.255.255.0';
+  }
+
+  // Calculate the applied subnet mask based on the number of subnet bits
+  const appliedSubnetMaskBinary = '1'.repeat(subnetBits).padEnd(32, '0');
+  const appliedSubnetMask = appliedSubnetMaskBinary.match(/.{1,8}/g).map(part => parseInt(part, 2)).join('.');
+
+
+  // Display the results
+  const resultString = `
+        IP Address: ${ip}
+        IP Class: ${ipClass}
+        Default Subnet Mask: ${defaultSubnetMask}
+        Applied Subnet Mask: ${appliedSubnetMask}
+        Subnet Bits: ${subnetBits}
+        Host Bits: ${hostBits}
+    `;
+  results.innerHTML = resultString;
+}
+
+// Example usage:
+
+</script>
