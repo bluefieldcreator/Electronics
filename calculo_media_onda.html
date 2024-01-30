@@ -1,0 +1,44 @@
+
+
+<h1>
+ Media Onda
+</h1>
+<input id="voltaje" placeholder="Voltaje/Voltaje">
+<input id="resistencia" placeholder="Resistencia (ohmios)">
+
+<button onclick="calculateMediaOnda()">
+ calcular
+</button>
+<p id="resultados">
+
+</p>
+
+<script>function calculateMediaOnda() {
+  const voltajeFase1 = document.querySelector("#voltaje").value.split("/")[0]
+  const voltajeFase2 = document.querySelector("#voltaje").value.split("/")[1]
+  const res = parseInt(document.querySelector("#resistencia").value);
+  
+  // 1 -> fase 1
+  const vEF = voltajeFase1;
+  const vMaxFase1 = vEF * Math.sqrt(2);
+  
+  // 2 -> fase 2
+  const vEF2 = voltajeFase2;
+  const vMaxFase2 = vEF2 * Math.sqrt(2);
+  
+  const vMedDiodo = (vMaxFase2 - 0.7) / Math.PI;
+  
+  const intensidad = vMedDiodo / res;
+  
+  const resultadosHTML = document.querySelector("#resultados");
+  
+  resultadosHTML.innerHTML = `
+  <p>Voltaje Fase 1: ${vEF}</p>
+  <p>Voltaje Maximo Fase 1: ${vMaxFase1}</p>
+  <p>Voltaje Fase 2: ${vEF2}</p>
+  <p>Voltaje Maximo Fase 2: ${vMaxFase2}</p>
+  <p>Voltaje Medio Diodo: ${vMedDiodo}</p>
+  <p>Intensidad Media del diodo: ${intensidad}</p>`
+  
+}
+</script>
