@@ -1,0 +1,40 @@
+<h1>
+ Onda Completa
+</h1>
+<input id="voltaje" placeholder="Voltaje/Voltaje">
+<input id="resistencia" placeholder="Resistencia">
+<button onclick="calculateOndaCompleta()"> Calculate</button>
+<p id="resultados">Results will show up here.</p>
+<a href="/">Go Back</a>
+<script>
+  function calculateOndaCompleta() {
+  const voltajeFase1 = document.querySelector("#voltaje").value.split("/")[0]
+  const voltajeFase2 = document.querySelector("#voltaje").value.split("/")[1]
+  const res = parseInt(document.querySelector("#resistencia").value);
+	
+  const voltajeEficazFase1 = voltajeFase1;
+  const voltajeMaximoFase1 = voltajeFase1 * Math.sqrt(2);
+  
+  const voltajeEficazFase2 = voltajeFase2;
+  const voltajeMaximoFase2 = voltajeFase2 * Math.sqrt(2);
+  
+  const voltajeMedioDiodo = (2*(voltajeMaximoFase2 - 0.7)) / Math.PI;
+  
+  const intensidadDiodo = voltajeMedioDiodo / res;
+  
+  const voltajeDiodo =  intensidadDiodo * res;
+  
+  const resultadosHTML = document.querySelector("#resultados");
+  
+  resultadosHTML.innerHTML = `
+  <p>Voltaje Fase 1: ${voltajeEficazFase1}</p>
+  <p>Voltaje Maximo Fase 1: ${voltajeMaximoFase1}</p>
+  <p>Voltaje Fase 2: ${voltajeEficazFase2}</p>
+  <p>Voltaje Maximo Fase 2: ${voltajeMaximoFase2}</p>
+  <p>Voltaje Medio Diodo: ${voltajeMedioDiodo}</p>
+  <p>Intensidad Media del diodo: ${intensidadDiodo}</p>
+  <p>Intensidad Diodo: ${intensidadDiodo}</p>
+  <p>Voltaje del Diodo: ${voltajeDiodo}</p>`
+  
+}
+</script>
