@@ -20,8 +20,8 @@
         </div>
           <div> <input placeholder="IP" id="ips" class="my-2 rounded p-2 placeholder-gray-600">
           </div>
-          <div><input placeholder="Hosts Necesarios" id="hosts" class="my-2 rounded p-2 placeholder-gray-600"></div>
-          <div><input placeholder="Redes Necesarias" id="nets" class="my-2 rounded p-2 placeholder-gray-600"></div>
+          <div><input placeholder="Hosts Totales" id="hosts" class="my-2 rounded p-2 placeholder-gray-600"></div>
+          <div><input placeholder="Redes Totales" id="nets" class="my-2 rounded p-2 placeholder-gray-600"></div>
           <div><button class="my-2 rounded bg-blue-800 p-2 text-white" onclick="calculateSubnetInfo()">Calculate</button></div>
         </div>
         <div  id="results" class="font-mono p-2"></div>
@@ -37,7 +37,7 @@ function calculateSubnetInfo() {
   const results = document.querySelector("#results");
   // Validate input values
   if (isNaN(usedHosts) || isNaN(usedNets)) {
-    return "Invalid input. Please enter valid numbers for used hosts and used networks.";
+    
   }
 
   // Extract the first octet to determine the IP class
@@ -88,6 +88,8 @@ function calculateSubnetInfo() {
        <span class="font-bold"> Applied Subnet Mask</span>: ${appliedSubnetMask}<br/>
       <span class="font-bold">  Subnet Bits</span>: ${subnetBits}<br/>
       <span class="font-bold">  Host Bits</span>: ${hostBits}<br/>
+    <span class="font-bold"> Total net (Debug): </span>${totalNets}<br/>
+    <span class="font-bold"> Total Host (Debug): </span>${totalHost}<br/>
     `;
   results.innerHTML = resultString;
 }
