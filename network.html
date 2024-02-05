@@ -1,24 +1,38 @@
-<input placeholder="IP Address" id="ips">
-<input placeholder="Hosts" id="hosts">
-<input placeholder="Nets" id="nets">
-<input placeholder="Ranges" id="range">
-<button onclick="calculateSubnetInfo()">
-  Calculate
-</button>
-<div id="results">
-  Results will show up here.
-</div>
-<ul id="range">
- 
-</ul>
-<a href="/Electronics">Go Back</a>
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Calculadora Subredes</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+
+  <body>
+
+
+
+    <div class="absolute h-screen w-screen bg-blue-500 text-white">
+      <div class="flex h-screen items-center justify-center gap-2 p-3">
+        <div class="p-2 text-black">
+        <div class="font-bold text-xl text-white">
+                  CALCULADORA SUBREDES
+
+        </div>
+          <div> <input placeholder="IP" id="ips" class="my-2 rounded p-2 placeholder-gray-600">
+          </div>
+          <div><input placeholder="Hosts Necesarios" id="hosts" class="my-2 rounded p-2 placeholder-gray-600"></div>
+          <div><input placeholder="Redes Necesarias" id="nets" class="my-2 rounded p-2 placeholder-gray-600"></div>
+          <div><button class="my-2 rounded bg-blue-800 p-2 text-white" onclick="calculateSubnetInfo()">Calculate</button></div>
+        </div>
+        <div  id="results" class="font-mono p-2"></div>
+      </div>
+    </div>
+  </body>
 <script>
 function calculateSubnetInfo() {
   const usedHosts = parseInt(document.querySelector("#hosts").value);
   const usedNets = parseInt(document.querySelector("#nets").value);
   const ip = document.querySelector("#ips").value;
-  const ranges = parseInt(document.querySelector("#ranges").value);
-
 
   const results = document.querySelector("#results");
   // Validate input values
@@ -61,62 +75,26 @@ function calculateSubnetInfo() {
 
   // Calculate the applied subnet mask based on the number of subnet bits
   const appliedSubnetMaskBinary = '1'.repeat(subnetBits).padEnd(32, '0');
-  const appliedSubnetMask = appliedSubnetMaskBinary.match(/.{1,8}/g).map(part => parseInt(part, 2)).join('.')
-    const rangesArray = [];
-    let currentSum = 0;
-	    while (currentSum < ranges) {
-        const range = [];
-        for (let i = currentSum; i < currentSum + usedHosts; i++) {
-        		console.log(i);
-            range.push(i);
-        }
-        rangesArray.push(range);
-        currentSum += usedHosts;
-    }
-    console.log(rangesArray)
-	
+  const appliedSubnetMask = appliedSubnetMaskBinary.match(/.{1,8}/g).map(part => parseInt(part, 2))[0]
+  
+
+
+
   // Display the results
   const resultString = `
-        IP Address: ${ip}
-        IP Class: ${ipClass}
-        Default Subnet Mask: ${defaultSubnetMask}
-        Applied Subnet Mask: ${defaultSubnetMask.replace("0", appliedSubnetMask)}
-        Subnet Bits: ${subnetBits}
-        Host Bits: ${hostBits}
+        <span class="font-bold">IP Address</span>: ${ip}<br/>
+        <span class="font-bold">IP Class</span>: ${ipClass}<br/>
+        <span class="font-bold">Default Subnet Mask</span>: ${defaultSubnetMask}<br/>
+       <span class="font-bold"> Applied Subnet Mask</span>: ${appliedSubnetMask}<br/>
+      <span class="font-bold">  Subnet Bits</span>: ${subnetBits}<br/>
+      <span class="font-bold">  Host Bits</span>: ${hostBits}<br/>
     `;
-  
   results.innerHTML = resultString;
-  
-     function createHtmlLists(items) {
-        for (let i = 0; i < items.length; i++) {
-            const listContainer = document.createElement('div');
-            const list = document.createElement('ul');
-						let itemSumIterator = 0;
-            let sum = 0;
-            items[i].forEach((item) => {
-            itemSumIterator += 1;
-                const listItem = document.createElement('li');
-                let resultedIp = "";
-                let splittedIP = ip.split(".");
-                if(itemSumIterator >= 256){
-                	splittedIP[1] = 1;
-                } else if (itemSumIterator >= 512){
-                splittedIP[1] = 1
-                splittedIP[2] = 2
-                }
-                splittedIP[3-sum] = item
-                listItem.textContent = splittedIP.join(".")
-                list.appendChild(listItem);
-            });
-
-            listContainer.appendChild(list);
-            document.body.appendChild(listContainer);
-        }
-    }
-    createHtmlLists(rangesArray)
-  
 }
 
 // Example usage:
 
 </script>
+
+</html>
+
